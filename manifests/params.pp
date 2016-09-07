@@ -111,7 +111,6 @@ class sudo::params {
     }
     aix: {
       $package_admin_file = false
-      $package_source = false
       $package = 'sudo'
       $package_ensure = 'present'
       $package_source = 'http://www.sudo.ws/sudo/dist/packages/AIX/5.3/sudo-1.8.9-6.aix53.lam.rpm'
