@@ -76,13 +76,13 @@ class sudo(
   Boolean $enable              = true,
   String $package              = $sudo::params::package,
   String $package_ensure       = $sudo::params::package_ensure,
-  String $package_source              = $sudo::params::package_source,
-  String $package_admin_file          = $sudo::params::package_admin_file,
+  String $package_source       = $sudo::params::package_source,
+  String $package_admin_file   = $sudo::params::package_admin_file,
   Boolean $purge               = true,
   String $config_file          = $sudo::params::config_file,
   Boolean $config_file_replace = true,
   String $config_dir           = $sudo::params::config_dir,
-  String $source                = $sudo::params::source
+  String $source               = $sudo::params::source
 ) inherits sudo::params {
 
 
