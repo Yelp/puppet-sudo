@@ -77,9 +77,9 @@ describe 'sudo' do
 
       describe 'on RedHat 5.4' do
         let :facts do
-          
+          { 
             :os => { 'family' => 'Redhat' },
-            :operatingsystemrelease => '5.4'
+            :operatingsystemrelease => '5.4',
           }
         end
 
@@ -102,7 +102,7 @@ describe 'sudo' do
 
         let :facts do
           {
-            :os => { 'family' => 'AIX' },
+            :os => { 'family' => 'AIX' }
           }
         end
 

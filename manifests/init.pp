@@ -73,20 +73,19 @@
 #
 # [Remember: No empty lines between comments and class definition]
 class sudo(
-  $enable              = true,
-  $package             = $sudo::params::package,
-  $package_ensure      = $sudo::params::package_ensure,
-  $package_source      = $sudo::params::package_source,
-  $package_admin_file  = $sudo::params::package_admin_file,
-  $purge               = true,
-  $config_file         = $sudo::params::config_file,
-  $config_file_replace = true,
-  $config_dir          = $sudo::params::config_dir,
-  $source              = $sudo::params::source
+  Boolean $enable              = true,
+  String $package              = $sudo::params::package,
+  String $package_ensure       = $sudo::params::package_ensure,
+  String $package_source              = $sudo::params::package_source,
+  String $package_admin_file          = $sudo::params::package_admin_file,
+  Boolean $purge               = true,
+  String $config_file          = $sudo::params::config_file,
+  Boolean $config_file_replace = true,
+  String $config_dir           = $sudo::params::config_dir,
+  String $source                = $sudo::params::source
 ) inherits sudo::params {
 
 
-  validate_bool($enable)
   case $enable {
     true: {
       $dir_ensure  = 'directory'
@@ -144,9 +143,7 @@ class sudo(
   #
   #   http://projects.puppetlabs.com/issues/12345
   #
-  if (versioncmp($::puppetversion, '3') != -1) {
-    include 'sudo::configs'
-  }
+  include 'sudo::configs'
 
   anchor { 'sudo::begin': } ->
   Class['sudo::package']    ->

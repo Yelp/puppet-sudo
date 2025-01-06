@@ -3,8 +3,8 @@ class sudo::params {
 
   case $facts['os']['family'] {
     debian: {
-      $package_admin_file = false
-      $package_source = false
+      $package_admin_file = ''
+      $package_source = ''
       case $::operatingsystem {
         'Ubuntu': {
           $source = "${source_base}sudoers.ubuntu"
@@ -28,8 +28,8 @@ class sudo::params {
       $config_file_group = 'root'
     }
     redhat: {
-      $package_admin_file = false
-      $package_source = false
+      $package_admin_file = '' 
+      $package_source = ''
       $package = 'sudo'
 
       # rhel 5.0 to 5.4 use sudo 1.6.9 which does not support
@@ -61,8 +61,8 @@ class sudo::params {
     solaris: {
       case $::operatingsystem {
         'OmniOS': {
-          $package_admin_file = false
-          $package_source = false
+          $package_admin_file = ''
+          $package_source = ''
           $package = 'sudo'
           $package_ensure = 'present'
           $config_file = '/etc/sudoers'
@@ -73,8 +73,8 @@ class sudo::params {
         default: {
           case $::kernelrelease {
             '5.11': {
-              $package_admin_file = false
-              $package_source = false
+              $package_admin_file = ''
+              $package_source = ''
               $package = 'pkg://solaris/security/sudo'
               $package_ensure = 'present'
               $config_file = '/etc/sudoers'
@@ -93,15 +93,15 @@ class sudo::params {
               $config_file_group = 'root'
             }
             default: {
-              fail("Unsupported platform: ${::osfamily}/${::operatingsystem}/${::kernelrelease}")
+              fail("Unsupported platform: ${facts['os']['family']}/${::operatingsystem}/${::kernelrelease}")
             }
           }
         }
       }
     }
     freebsd: {
-      $package_admin_file = false
-      $package_source = false
+      $package_admin_file = ''
+      $package_source = ''
       $package = 'security/sudo'
       $package_ensure = 'present'
       $config_file = '/usr/local/etc/sudoers'
@@ -110,7 +110,7 @@ class sudo::params {
       $config_file_group = 'wheel'
     }
     aix: {
-      $package_admin_file = false
+      $package_admin_file = ''
       $package = 'sudo'
       $package_ensure = 'present'
       $package_source = 'http://www.sudo.ws/sudo/dist/packages/AIX/5.3/sudo-1.8.9-6.aix53.lam.rpm'
@@ -120,8 +120,8 @@ class sudo::params {
       $config_file_group = 'system'
     }
     default: {
-      $package_admin_file = false
-      $package_source = false
+      $package_admin_file = ''
+      $package_source = ''
       case $::operatingsystem {
         gentoo: {
           $package = 'sudo'
@@ -152,7 +152,7 @@ class sudo::params {
           $config_file_group = 'root'
         }
         default: {
-          fail("Unsupported platform: ${::osfamily}/${::operatingsystem}")
+          fail("Unsupported platform: ${facts['os']['family']}/${::operatingsystem}")
         }
       }
     }
