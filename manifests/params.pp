@@ -5,7 +5,7 @@ class sudo::params {
     debian: {
       $package_admin_file = ''
       $package_source = ''
-      case $::operatingsystem {
+      case $facts['os']['name'] {
         'Ubuntu': {
           $source = "${source_base}sudoers.ubuntu"
         }
@@ -35,13 +35,13 @@ class sudo::params {
       # rhel 5.0 to 5.4 use sudo 1.6.9 which does not support
       # includedir, so we have to make sure sudo 1.7 (comes with rhel
       # 5.5) is installed.
-      $package_ensure = $::operatingsystemrelease ? {
+      $package_ensure = $facts['os']['release']['full'] ? {
         /^5.[01234]/ => "latest",
         default     => "present",
       }
       $config_file = '/etc/sudoers'
       $config_dir = '/etc/sudoers.d/'
-      $source = $::operatingsystemrelease ? {
+      $source = $facts['os']['release']['full'] ? {
         /^5/    => "${source_base}sudoers.rhel5",
         /^6/    => "${source_base}sudoers.rhel6",
         default => "${source_base}sudoers.rhel6",
@@ -59,7 +59,7 @@ class sudo::params {
       $config_file_group = 'root'
     }
     solaris: {
-      case $::operatingsystem {
+      case $facts['os']['name'] {
         'OmniOS': {
           $package_admin_file = ''
           $package_source = ''
@@ -93,7 +93,7 @@ class sudo::params {
               $config_file_group = 'root'
             }
             default: {
-              fail("Unsupported platform: ${facts['os']['family']}/${::operatingsystem}/${::kernelrelease}")
+              fail("Unsupported platform: ${facts['os']['family']}/${facts['os']['release']['full']}/${::kernelrelease}")
             }
           }
         }
@@ -122,7 +122,7 @@ class sudo::params {
     default: {
       $package_admin_file = ''
       $package_source = ''
-      case $::operatingsystem {
+      case $facts['os']['name'] {
         gentoo: {
           $package = 'sudo'
           $package_ensure = 'present'
@@ -144,7 +144,7 @@ class sudo::params {
           $package_ensure = 'present'
           $config_file = '/etc/sudoers'
           $config_dir = '/etc/sudoers.d/'
-          $source = $::operatingsystemrelease ? {
+          $source = $facts['os']['release']['full'] ? {
             /^5/    => "${source_base}sudoers.rhel5",
             /^6/    => "${source_base}sudoers.rhel6",
             default => "${source_base}sudoers.rhel6",
@@ -152,7 +152,7 @@ class sudo::params {
           $config_file_group = 'root'
         }
         default: {
-          fail("Unsupported platform: ${facts['os']['family']}/${::operatingsystem}")
+          fail("Unsupported platform: ${facts['os']['family']}/${facts['os']['release']['full']}")
         }
       }
     }
