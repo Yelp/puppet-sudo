@@ -12,7 +12,7 @@ describe 'sudo::package' do
 
     let :facts do
       {
-        :osfamily => 'RedHat'
+        :os => { 'family' => 'RedHat' },
       }
     end
 

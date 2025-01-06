@@ -1,7 +1,7 @@
 class sudo::params {
   $source_base = "puppet:///modules/${module_name}/"
 
-  case $::osfamily {
+  case $facts['os']['family'] {
     debian: {
       $package_admin_file = false
       $package_source = false

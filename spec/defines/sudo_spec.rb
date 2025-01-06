@@ -6,7 +6,7 @@ describe 'sudo::conf', :type => :define do
 
   let :facts do
     {
-      :osfamily => 'Debian'
+      :os => { 'family' => 'Debian' },
     }
   end
 
