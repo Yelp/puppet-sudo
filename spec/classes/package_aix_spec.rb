@@ -13,7 +13,7 @@ describe 'sudo::package::aix' do
 
     let :facts do
       {
-        :osfamily => 'AIX'
+        :os => { 'family' => 'AIX' },
       }
     end
 

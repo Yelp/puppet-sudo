@@ -32,17 +32,53 @@ describe 'sudo' do
         param_set
       end
 
-      ['Debian', 'Redhat'].each do |osfamily|
-
+      describe 'on Ubuntu 22.04' do
         let :facts do
           {
-            :osfamily        => osfamily,
+            :os => { 'family' => 'Debian', 'name' => 'Ubuntu', 'release' => { 'full' => '22.04', 'major' => '22.04' }},
           }
         end
 
-        describe "on supported osfamily: #{osfamily}" do
+        it { should contain_class('sudo::params') }
 
-          it { should contain_class('sudo::params') }
+        it do
+            should contain_file('/etc/sudoers').with(
+              'ensure'  => 'present',
+              'owner'   => 'root',
+              'group'   => 'root',
+              'mode'    => '0440',
+              'replace' => param_hash[:config_file_replace]
+            )
+        end
+
+        it do
+          should contain_file('/etc/sudoers.d/').with(
+            'ensure'  => 'directory',
+            'owner'   => 'root',
+            'group'   => 'root',
+            'mode'    => '0550',
+            'recurse' => param_hash[:purge],
+            'purge'   => param_hash[:purge]
+          )
+        end
+
+        it do
+          should contain_class('sudo::package').with(
+            'package'        => 'sudo',
+            'package_ensure' => param_hash[:package_ensure]
+          )
+        end
+
+      end
+
+      describe 'on RedHat 5.4' do
+        let :facts do
+          { 
+            :os => { 'family' => 'Redhat', 'name' => 'Redhat', 'release' => { 'full' => '5.4', 'major' => '5.4' } }
+          }
+        end
+
+        it { should contain_class('sudo::params') }
 
           it do
               should contain_file('/etc/sudoers').with(
@@ -65,24 +101,6 @@ describe 'sudo' do
             )
           end
 
-          it do
-            should contain_class('sudo::package').with(
-              'package'        => 'sudo',
-              'package_ensure' => param_hash[:package_ensure]
-            )
-          end
-
-        end
-      end
-
-      describe 'on RedHat 5.4' do
-        let :facts do
-          {
-            :osfamily               => 'RedHat',
-            :operatingsystemrelease => '5.4'
-          }
-        end
-
         it do
           if params == {}
             should contain_class('sudo::package').with(
@@ -102,7 +120,7 @@ describe 'sudo' do
 
         let :facts do
           {
-            :osfamily => 'AIX',
+            :os => { 'family' => 'AIX' }
           }
         end
 
@@ -143,7 +161,7 @@ describe 'sudo' do
 
         let :facts do
           {
-            :osfamily        => 'Solaris',
+            :os => { 'family' => 'Solaris' },
             :kernelrelease   => '5.10',
           }
         end
@@ -186,7 +204,7 @@ describe 'sudo' do
 
         let :facts do
           {
-            :osfamily        => 'Solaris',
+            :os => { 'family' => 'Solaris' },
             :kernelrelease   => '5.11',
           }
         end

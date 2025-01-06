@@ -12,7 +12,7 @@ describe 'sudo::package' do
 
     let :facts do
       {
-        :osfamily => 'RedHat'
+        :os => { 'family' => 'RedHat' },
       }
     end
 
@@ -33,7 +33,7 @@ describe 'sudo::package' do
 
     let :facts do
       {
-        :osfamily => 'AIX'
+        :os => { 'family' => 'AIX' },
       }
     end
 

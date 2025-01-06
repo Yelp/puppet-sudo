@@ -69,7 +69,7 @@ define sudo::conf(
 
   Class['sudo'] -> Sudo::Conf[$name]
 
-  if $::osfamily == 'RedHat' {
+  if $facts['os']['family'] == 'RedHat' {
     if (versioncmp($::sudoversion, '1.7.2p1') < 0) {
       warning("Found sudo with version $::sudoversion, but at least version 1.7.2p1 is required!")
     }

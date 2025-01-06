@@ -36,7 +36,7 @@ class sudo::package(
   $package_admin_file = '',
   ) {
 
-  case $::osfamily {
+  case $facts['os']['family'] {
     aix: {
       class { 'sudo::package::aix':
         package        => $package,
